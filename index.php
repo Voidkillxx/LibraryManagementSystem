@@ -7,7 +7,7 @@
     if ($_SESSION['role'] === 'User') {
        
         if ($search !== '') {
-            $sql = "SELECT * FROM book WHERE status = 'Available' 
+            $sql = "SELECT * FROM books WHERE status = 'Available' 
                     AND (title LIKE ? OR author LIKE ? OR isbn LIKE ?)";
             $stmt = mysqli_prepare($conn, $sql);
             $searchLike = "%$search%";
@@ -15,13 +15,13 @@
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
         } else {
-            $sql = "SELECT * FROM book WHERE status = 'Available'";
+            $sql = "SELECT * FROM books WHERE status = 'Available'";
             $result = mysqli_query($conn, $sql);
         }
     } else {
         
         if ($search !== '') {
-            $sql = "SELECT * FROM book WHERE title LIKE ? OR author LIKE ? OR isbn LIKE ?";
+            $sql = "SELECT * FROM books WHERE title LIKE ? OR author LIKE ? OR isbn LIKE ?";
             $stmt = mysqli_prepare($conn, $sql);
             $searchLike = "%$search%";
             mysqli_stmt_bind_param($stmt, "sss", $searchLike, $searchLike, $searchLike);
@@ -47,6 +47,7 @@ $books = mysqli_fetch_all($result, MYSQLI_ASSOC);
     <form action="logout.php" method="post" onclick="return confirm('Are you sure you want to logout?')">
         <button type="submit">Logout</button>
     </form>
+
     <?php if($_SESSION['role'] === "Librarian"):?>
         <button type="button" onclick="window.location.href='add_book.php'">Add book</button>
     <?php elseif($_SESSION['role'] === "User"):?>   
@@ -57,6 +58,13 @@ $books = mysqli_fetch_all($result, MYSQLI_ASSOC);
         <input type="text" size="30" name="search" placeholder="Search Book, Author, ISBN" value="<?php echo $_GET['search'] ?? ''?>">
         <button type="submit">Search</button>
     </form>
+
+
+    <?php if(isset($_GET['success'])&&$_GET['success']):?>
+        <p style="color: green;"><?php echo htmlspecialchars(string: $_GET['success'])?></p>
+    <?php elseif(isset($_GET['error']) && $_GET['error']):?>
+        <p style="color: red;"><?php echo htmlspecialchars(string: $_GET['error'])?></p>
+    <?php endif?>
 
     <?php if(!empty($books)) :?>
         <table border="1" cellspacing = "5" >
@@ -78,7 +86,7 @@ $books = mysqli_fetch_all($result, MYSQLI_ASSOC);
                                 <button type="submit">Delete</button>
                             </form>
                         <?php elseif ($_SESSION['role'] === "User" && $book['status'] === "Available"): ?>
-                            <form method="post" action="borrow_book.php" style="display:inline;">
+                            <form method="post" action="borrow_book.php" onsubmit="return confirm('Are you sure you want to borrow this book?')" style="display:inline;">
                                 <input type="hidden" name="book_id" value="<?php echo (int)$book['id'] ?>">
                                 <button type="submit">Borrow</button>
                             </form>
@@ -88,12 +96,14 @@ $books = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 </tr>
             <?php endforeach?>
         </table>
-    <?php else:?>
-        <?php if($_GET['search'] !== ''): ?>
-            <h2>Book with '<?php echo htmlspecialchars($_GET['search'])?>' not found</h2>
-        <?php else:?>
+   <?php else: ?>
+     <?php $search = $_GET['search'] ?? ''; ?>
+        <?php if ($search !== ''): ?>
+             <h2>Book with '<?php echo htmlspecialchars($search); ?>' not found</h2>
+        <?php else: ?>
             <h2>No book in library</h2>
         <?php endif?>
-    <?php endif?>
+    <?php endif; ?>
+
 </body>
 </html>
