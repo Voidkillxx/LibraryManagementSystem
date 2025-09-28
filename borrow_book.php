@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         exit;
     }
 
-    // Check book status
+   
     $sql = "SELECT id, status FROM books WHERE id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $book_id);
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     }
 
     if (strtolower($book['status']) === "available") {
-        // Insert into borrow_history with status = 'borrowed'
+       
         $borrow_date = date("Y-m-d H:i:s");
         $sql = "INSERT INTO borrow_history (book_id, user_id, borrow_date, status) 
                 VALUES (?, ?, ?, 'borrowed')";
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         mysqli_stmt_bind_param($stmt, "iis", $book_id, $user_id, $borrow_date);
 
         if (mysqli_stmt_execute($stmt)) {
-            // Update book status to Borrowed
+           
             $sql = "UPDATE books SET status = 'Borrowed' WHERE id = ?";
             $stmt = mysqli_prepare($conn, $sql);
             mysqli_stmt_bind_param($stmt, "i", $book_id);

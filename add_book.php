@@ -47,8 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->bind_param("ssssis", $title, $author, $isbn, $genre, $publication_year, $status);
 
             if ($stmt->execute()) {
-                $success = "✅ Book added successfully!";
-                // Clear form fields
+                $success = "Book added successfully!";
+                
                 $title = $author = $isbn = $genre = $publication_year = "";
             } else {
                 $error = ($conn->errno == 1062) 

@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             exit;
         }
 
-        $stmt->close();
+     
     } else {
         header("Location: index.php?error=All+fields+are+required");
         exit;

@@ -104,7 +104,7 @@ $books = mysqli_fetch_all($result, MYSQLI_ASSOC);
     tr:nth-child(even) { background-color: #f9f9f9; }
     tr:hover { background-color: #eef2f7; }
 
-    /* Status + buttons inline */
+   
     .status-cell {
         display: flex;
         align-items: center;
@@ -196,7 +196,7 @@ $books = mysqli_fetch_all($result, MYSQLI_ASSOC);
 </div>
 
 <script>
-    // Show popup messages if any
+    
     <?php if ($successMessage): ?>
         alert(" <?= addslashes($successMessage) ?>");
     <?php endif; ?>
