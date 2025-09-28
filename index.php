@@ -83,7 +83,7 @@ $books = mysqli_fetch_all($result, MYSQLI_ASSOC);
                         <?php if($_SESSION['role'] === "Librarian"):?>
                             <form method="post" action="delete_book.php" onsubmit="return confirm('Are you sure you want to delete this book') " style="display: inline;">
                                 <input type="hidden" name="book_id" value="<?php echo $book['id']?>">
-                                <button type="submit">Delete</button>
+                                <button type="submit">Delete</button>s
                             </form>
                         <?php elseif ($_SESSION['role'] === "User" && $book['status'] === "Available"): ?>
                             <form method="post" action="borrow_book.php" onsubmit="return confirm('Are you sure you want to borrow this book?')" style="display:inline;">
