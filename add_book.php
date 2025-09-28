@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $genre = trim($_POST['genre']);
     $publication_year = trim($_POST['publication_year']);
 
-    if (eWmpty($title) || empty($author) || empty($isbn) || empty($genre) || empty($publication_year)) {
+    if (empty($title) || empty($author) || empty($isbn) || empty($genre) || empty($publication_year)) {
         $error = "All fields are required.";
     } elseif (!is_numeric($publication_year) || $publication_year <= 1000) {
         $error = "Publication year must be greater than 1000.";
