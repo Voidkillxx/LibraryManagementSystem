@@ -5,16 +5,6 @@ if (session_status() == PHP_SESSION_NONE) {
 
 include_once "database.php";
 
-<<<<<<< HEAD
-$error = "";
-$success = "";
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $title = trim($_POST['title']);
-    $author = trim($_POST['author']);
-    $isbn = trim($_POST['isbn']);
-    $genre = trim($_POST['genre']);
-=======
 $error   = "";
 $success = "";
 
@@ -35,18 +25,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $author           = trim($_POST['author']);
     $isbn             = trim($_POST['isbn']);
     $genre            = trim($_POST['genre']);
->>>>>>> feature/add-book
     $publication_year = trim($_POST['publication_year']);
 
     if (empty($title) || empty($author) || empty($isbn) || empty($genre) || empty($publication_year)) {
         $error = "All fields are required.";
     } elseif (!is_numeric($publication_year) || $publication_year <= 1000) {
         $error = "Publication year must be greater than 1000.";
-<<<<<<< HEAD
-=======
     } elseif (!in_array($genre, $genres)) {
         $error = "Please select a valid genre.";
->>>>>>> feature/add-book
     } else {
         $status = "available";
 
@@ -56,13 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->bind_param("ssssis", $title, $author, $isbn, $genre, $publication_year, $status);
 
             if ($stmt->execute()) {
-<<<<<<< HEAD
-                $success = "Book added successfully and is available!";
-=======
                 $success = "✅ Book added successfully and is available!";
                 // Clear form after success
                 $title = $author = $isbn = $genre = $publication_year = "";
->>>>>>> feature/add-book
             } else {
                 $error = ($conn->errno == 1062) 
                     ? "A book with this ISBN already exists." 
@@ -82,54 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <title>Add Book</title>
     <style>
-<<<<<<< HEAD
-        body { font-family: Arial, sans-serif; margin: 50px; }
-        form { max-width: 400px; margin: auto; }
-        input[type=text], input[type=number], select { width: 100%; padding: 8px; margin: 5px 0 15px 0; }
-        input[type=submit] { padding: 10px 20px; }
-        .error { color: red; }
-        .success { color: green; }
-    </style>
-</head>
-<body>
-    <h2>Add New Book</h2>
-
-    <?php if ($error): ?>
-        <p class="error"><?= htmlspecialchars($error) ?></p>
-    <?php endif; ?>
-
-    <?php if ($success): ?>
-        <p class="success"><?= htmlspecialchars($success) ?></p>
-    <?php endif; ?>
-
-    <form method="post" action="">
-        <label>Title:</label>
-        <input type="text" name="title" required>
-
-        <label>Author:</label>
-        <input type="text" name="author" required>
-
-        <label>ISBN:</label>
-        <input type="text" name="isbn" required>
-
-        <label>Genre:</label>
-        <select name="genre" required>
-            <option value="">-- Select Genre --</option>
-            <option value="Fiction">Fiction</option>
-            <option value="Science Fiction">Science Fiction</option>
-            <option value="Romance">Romance</option>
-            <option value="Adventure">Adventure</option>
-            <option value="Drama">Drama</option>
-            <option value="Historical Fiction">Historical Fiction</option>
-            <option value="Philosophical Fiction">Philosophical Fiction</option>
-        </select>
-
-        <label>Publication Year:</label>
-        <input type="number" name="publication_year" min="1001" required>
-
-        <input type="submit" value="Add Book">
-    </form>
-=======
         body {
             font-family: Arial, sans-serif;
             background: #f8f9fa;
@@ -230,6 +164,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <input type="submit" value="Add Book">
         </form>
     </div>
->>>>>>> feature/add-book
 </body>
 </html>
