@@ -7,6 +7,20 @@ if (!isset($_GET['id'])) {
     exit;
 }
 
+$genres = [
+    'Fiction',
+    'Non-Fiction',
+    'Mystery',
+    'Fantasy',
+    'Science Fiction',
+    'Biography',
+    'Historical',
+    'Poetry',
+    'Drama',
+    'Philosophy'
+];
+
+
 $book_id = (int) $_GET['id'];
 
 $stmt = $conn->prepare("SELECT * FROM books WHERE id = ?");
@@ -103,8 +117,12 @@ include_once "header.php";
             <label>ISBN:</label>
             <input type="text" name="isbn" value="<?= htmlspecialchars($book['isbn']) ?>" required>
 
-            <label>Genre:</label>
-            <input type="text" name="genre" value="<?= htmlspecialchars($book['genre']) ?>" required>
+           <select name="genre">
+              <option hidden value="">-- Select Genre --</option>
+                <?php foreach ($genres as $genre): ?>
+                    <option value="<?= htmlspecialchars($genre) ?>"><?= htmlspecialchars($genre) ?></option>
+                <?php endforeach; ?>
+            </select>
 
             <label>Status:</label>
             <select name="status" required>

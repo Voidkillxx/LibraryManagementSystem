@@ -21,8 +21,7 @@ $genres = [
     'Historical',
     'Poetry',
     'Drama',
-    'Philosophy',
-    'Self-Help'
+    'Philosophy'
 ];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
