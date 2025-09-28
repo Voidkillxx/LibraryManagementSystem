@@ -11,7 +11,7 @@ if (!isset($_SESSION['role'])) {
 $role   = $_SESSION['role'];
 $search = trim($_GET['search'] ?? '');
 
-// --- Messages from actions (delete, update, borrow, login, etc.) ---
+
 $successMessage = $_GET['success'] ?? '';
 $errorMessage   = $_GET['error'] ?? '';
 
@@ -207,3 +207,4 @@ $books = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 </body>
 </html>
+
