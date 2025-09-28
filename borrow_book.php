@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         exit;
     }
 
-    // 1. Check if the book exists and is available
+    // Check book status
     $sql = "SELECT id, status FROM books WHERE id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $book_id);
@@ -24,14 +24,16 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         exit;
     }
 
-    // 2. Borrow if available
-    if ($book['status'] === "Available") {
-        $sql = "INSERT INTO borrow_history (book_id, user_id) VALUES (?, ?)";
+    if (strtolower($book['status']) === "available") {
+        // Insert into borrow_history with status = 'borrowed'
+        $borrow_date = date("Y-m-d H:i:s");
+        $sql = "INSERT INTO borrow_history (book_id, user_id, borrow_date, status) 
+                VALUES (?, ?, ?, 'borrowed')";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ii", $book_id, $user_id);
+        mysqli_stmt_bind_param($stmt, "iis", $book_id, $user_id, $borrow_date);
 
         if (mysqli_stmt_execute($stmt)) {
-            // Update book status
+            // Update book status to Borrowed
             $sql = "UPDATE books SET status = 'Borrowed' WHERE id = ?";
             $stmt = mysqli_prepare($conn, $sql);
             mysqli_stmt_bind_param($stmt, "i", $book_id);
@@ -47,5 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         header("Location: index.php?error=Book is already borrowed");
         exit;
     }
+} else {
+    header("Location: index.php?error=Invalid access");
+    exit;
 }
-?>
