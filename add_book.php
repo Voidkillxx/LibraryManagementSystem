@@ -4,6 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 include_once "database.php";
+include_once "header.php";
 
 $error   = "";
 $success = "";
@@ -11,13 +12,17 @@ $success = "";
 $title = $author = $isbn = $genre = $publication_year = "";
 
 $genres = [
-    "Fiction",
-    "Science Fiction",
-    "Romance",
-    "Adventure",
-    "Drama",
-    "Historical Fiction",
-    "Philosophical Fiction"
+    'Fiction',
+    'Non-Fiction',
+    'Mystery',
+    'Fantasy',
+    'Science Fiction',
+    'Biography',
+    'Historical',
+    'Poetry',
+    'Drama',
+    'Philosophy',
+    'Self-Help'
 ];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -42,8 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->bind_param("ssssis", $title, $author, $isbn, $genre, $publication_year, $status);
 
             if ($stmt->execute()) {
-                $success = "✅ Book added successfully and is available!";
-                // Clear form after success
+                $success = "Book added successfully!";
+                
                 $title = $author = $isbn = $genre = $publication_year = "";
             } else {
                 $error = ($conn->errno == 1062) 
@@ -150,13 +155,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <label>Genre:</label>
             <select name="genre" required>
-                <option hidden value="">-- Select Genre --</option>
+             <option hidden value="">-- Select Genre --</option>
                 <?php foreach ($genres as $g): ?>
                     <option value="<?= htmlspecialchars($g) ?>" <?= ($genre === $g) ? 'selected' : '' ?>>
                         <?= htmlspecialchars($g) ?>
                     </option>
                 <?php endforeach; ?>
             </select>
+
 
             <label>Publication Year:</label>
             <input type="number" name="publication_year" min="1001" value="<?= htmlspecialchars($publication_year ?? '') ?>" required>
