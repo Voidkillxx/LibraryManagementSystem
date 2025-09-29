@@ -109,22 +109,7 @@ $histories = mysqli_fetch_all($result, MYSQLI_ASSOC);
             font-weight: bold;
             text-transform: capitalize;
         }
-        .action-form {
-            display: inline-block;
-            margin: 0;
-        }
-        .btn-return {
-            background-color: #e74c3c;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 13px;
-            border: none;
-            cursor: pointer;
-        }
-        .btn-return:hover {
-            background-color: #c0392b;
-        }
+        
     </style>
 </head>
 <body>
@@ -155,13 +140,6 @@ $histories = mysqli_fetch_all($result, MYSQLI_ASSOC);
                     <td><?= $row['return_date'] ? htmlspecialchars($row['return_date']) : '-' ?></td>
                     <td class="status-cell">
                         <span class="status-text"><?= htmlspecialchars($row['status']) ?></span>
-                        <?php if ($row['status'] === 'borrowed'): ?>
-                            <form method="POST" action="return_book.php" class="action-form" onsubmit="return confirm('Return this book?');">
-                                <input type="hidden" name="borrowing_id" value="<?= (int)$row['borrow_id'] ?>">
-                                <input type="hidden" name="book_id" value="<?= (int)$row['book_id'] ?>">
-                                <button type="submit" class="btn-return">Return</button>
-                            </form>
-                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

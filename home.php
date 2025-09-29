@@ -151,7 +151,7 @@ $history = $stmt_history->get_result();
                         <td>
                             <div class="status-cell">
                                 <span><?= ucfirst($row['status']) ?></span>
-                                <?php if ($row['status'] === 'borrowed' && $role !== "librarian"): ?>
+                                <?php if ($row['status'] === 'borrowed' && $role === "librarian"): ?>
                                     <form method="POST" action="return_book.php" style="margin:0;">
                                         <input type="hidden" name="borrowing_id" value="<?= $row['borrow_id'] ?>">
                                         <input type="hidden" name="book_id" value="<?= $row['book_id'] ?>">
